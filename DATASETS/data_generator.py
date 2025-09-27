@@ -1,7 +1,7 @@
 """
 FinBank Synthetic Data Generator
 Author: SINGOEI RODGERS
-Date: 26/09/2025
+Date: 27/09/2025
 
 Description: 
 This script generates a comprehensive synthetic banking dataset that mirrors real-world 
@@ -45,14 +45,14 @@ class BankingDataGenerator:
         end_date (datetime): End date for transaction history
     """
     
-    def __init__(self, seed: int = 42, customer_count: int = 10000, transaction_years: int = 5):
+    def __init__(self, seed: int = 42, customer_count: int = 5000, transaction_years: int = 2):
         """
         Initialize the data generator with configuration parameters.
         
         Args:
             seed (int): Random seed for reproducible results
-            customer_count (int): Number of customers to generate
-            transaction_years (int): Number of years of transaction history
+            customer_count (int): Number of customers to generate (reduced to 5,000)
+            transaction_years (int): Number of years of transaction history (reduced to 2)
         """
         # Initialize Faker and set seeds for reproducibility
         self.fake = Faker()
@@ -60,11 +60,11 @@ class BankingDataGenerator:
         np.random.seed(seed)
         random.seed(seed)
         
-        # Configuration parameters
-        self.customer_count = customer_count
-        self.transaction_years = transaction_years
-        self.start_date = datetime(2021, 1, 1)
-        self.end_date = datetime(2025, 12, 31)
+        # Configuration parameters - REDUCED SCALE
+        self.customer_count = customer_count  # Reduced to 5,000
+        self.transaction_years = transaction_years  # Reduced to 2 years
+        self.start_date = datetime(2024, 1, 1)  # Updated to 2024-2025 span
+        self.end_date = datetime(2025, 12, 31)  # Updated to 2024-2025 span
         
         # Realistic constants for data generation
         self.BRANCH_CITIES = {
@@ -301,6 +301,10 @@ class BankingDataGenerator:
             0.07, 0.08, 0.06, 0.04, 0.03, 0.02, 0.01, 0.005        # Evening to night
         ]
         
+        # Transaction frequency reduction factor to limit total transactions
+        # We'll reduce frequency by 60% to keep under 1M transactions
+        FREQUENCY_REDUCTION_FACTOR = 0.4
+        
         for _, account in account_df.iterrows():
             if account['status'] != 'Active':
                 continue  # Skip inactive accounts
@@ -312,8 +316,8 @@ class BankingDataGenerator:
             if days_active <= 0:
                 continue  # Account opened after our end date
                 
-            # Transaction frequency based on account type
-            txn_frequency = self._get_transaction_frequency(account['account_type'])
+            # Transaction frequency based on account type - REDUCED by factor
+            txn_frequency = self._get_transaction_frequency(account['account_type']) * FREQUENCY_REDUCTION_FACTOR
             total_expected_txns = int(days_active * txn_frequency)
             actual_txns = max(1, int(random.normalvariate(total_expected_txns, total_expected_txns * 0.1)))
             
@@ -351,6 +355,11 @@ class BankingDataGenerator:
                 
                 transactions.append(transaction)
                 transaction_id += 1
+        
+        # Ensure we don't exceed 1M transactions
+        if len(transactions) > 1_000_000:
+            transactions = transactions[:1_000_000]
+            print(f"⚠️  Transactions capped at 1,000,000 records")
         
         return pd.DataFrame(transactions)
     
@@ -587,9 +596,12 @@ def generate_complete_dataset() -> Dict[str, pd.DataFrame]:
     Returns:
         Dict[str, pd.DataFrame]: Dictionary of DataFrames for each table
     """
-    generator = BankingDataGenerator(customer_count=10000, transaction_years=5)
+    # Updated parameters: 5,000 customers, 2-year span
+    generator = BankingDataGenerator(customer_count=5000, transaction_years=2)
     
     print("🚀 Starting FinBank Synthetic Data Generation...")
+    print("=" * 60)
+    print("📊 Configuration: 5,000 customers | 2024-2025 timeframe | ≤1M transactions")
     print("=" * 60)
     
     print("📍 Generating branches...")
@@ -601,7 +613,7 @@ def generate_complete_dataset() -> Dict[str, pd.DataFrame]:
     print("💳 Generating accounts...")
     accounts = generator.generate_accounts(customers)
     
-    print("💰 Generating transactions...")
+    print("💰 Generating transactions (this may take a moment)...")
     transactions = generator.generate_transactions(accounts)
     
     print("🏠 Generating loans...")
@@ -673,6 +685,10 @@ def generate_dataset_summary(data_dict: Dict[str, pd.DataFrame]) -> None:
     if 'loans' in data_dict:
         total_loans = data_dict['loans']['loan_amount'].sum()
         print(f"   🏠 Total Loan Portfolio: ${total_loans:,.2f}")
+    
+    if 'credit_cards' in data_dict:
+        total_credit = data_dict['credit_cards']['credit_limit'].sum()
+        print(f"   💳 Total Credit Limits: ${total_credit:,.2f}")
     
     print("=" * 60)
 
