@@ -101,7 +101,7 @@ IF OBJECT_ID ('bronze.loans', 'U') IS NOT NULL
     DROP TABLE bronze.loans;
 CREATE TABLE bronze.loans(
     loan_id            NVARCHAR(50),
-    customer_id        NVARCHAR(50),s
+    customer_id        NVARCHAR(50),
     loan_type          NVARCHAR(50),
     loan_amount        INT,
     interest_rate      FLOAT,
