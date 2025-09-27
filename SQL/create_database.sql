@@ -1,5 +1,5 @@
 /********************************************************************************************
- Script:     create_database.sql
+ Script:     init_database.sql
  Purpose:    Creates a new SQL Server database called 'FinBankWarehouse' and sets up 
              three schemas: bronze, silver, and gold, following the modern data warehouse 
              layering approach.
