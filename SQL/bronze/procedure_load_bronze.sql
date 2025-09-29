@@ -16,7 +16,7 @@
 **********************************************************************************************/
 CREATE OR ALTER PROCEDURE bronze.load_bronze AS
 BEGIN
-    -- Declare timing variables for performance tracking
+    -- Declaring timing variables for performance tracking
 	DECLARE @start_time DATETIME, @end_time DATETIME, @batch_start_time DATETIME, @batch_end_time DATETIME;
 
 	BEGIN TRY
@@ -37,7 +37,7 @@ BEGIN
 		BULK INSERT bronze.accounts
 		FROM 'C:\Users\user 1\RKS\finbank\finbank_data\accounts.csv'
 		WITH(
-			FIRSTROW = 2,             -- Skip header row
+			FIRSTROW = 2,             -- Skipping the header row(i.e the column names)
 			FIELDTERMINATOR = ',',    -- CSV delimiter
 			TABLOCK                   -- Optimized bulk lock
 		);
@@ -161,6 +161,5 @@ BEGIN
 		PRINT 'Error Message: ' + ERROR_MESSAGE();
 		PRINT 'Error Number: ' + CAST(ERROR_NUMBER() AS NVARCHAR);
 		PRINT '=================================================';
-		-- THROW;  -- Optional: Uncomment to stop execution
 	END CATCH
 END;
