@@ -159,7 +159,8 @@ BEGIN
 		PRINT '=================================================';
 		PRINT 'ERROR OCCURRED DURING - LOADING THE BRONZE LAYER';
 		PRINT 'Error Message: ' + ERROR_MESSAGE();
-		PRINT 'Error Number: ' + CAST(ERROR_NUMBER() AS NVARCHAR);
+		PRINT 'Error Message: ' + CAST(ERROR_NUMBER() AS NVARCHAR);
+		PRINT 'Error Message: ' + CAST(ERROR_STATE() AS NVARCHAR);
 		PRINT '=================================================';
 	END CATCH
 END;
