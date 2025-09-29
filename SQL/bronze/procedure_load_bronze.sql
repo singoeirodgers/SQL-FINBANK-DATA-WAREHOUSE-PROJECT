@@ -21,6 +21,7 @@ BEGIN
 
 	BEGIN TRY
 		SET @batch_start_time = GETDATE();
+		BEGIN TRANSACTION;
 		PRINT '=================================================';
         PRINT 'LOADING THE BRONZE LAYER';
 		PRINT '=================================================';
@@ -148,6 +149,7 @@ BEGIN
         /**********************************************
             FINAL SUMMARY
         **********************************************/
+		COMMIT TRANSACTION;
 		SET @batch_end_time = GETDATE();
 		PRINT '=================================================';
 		PRINT 'LOADING THE BRONZE LAYER IS COMPLETE';
