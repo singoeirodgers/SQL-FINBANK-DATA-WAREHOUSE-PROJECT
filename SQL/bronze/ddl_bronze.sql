@@ -15,7 +15,7 @@
 **********************************************************************************************/
 
 /*============================================================
-  BRONZE.ACCOUNTS - Raw bank account records
+  bronze.accounts - Raw accounts records
 ============================================================*/
 IF OBJECT_ID ('bronze.accounts', 'U') IS NOT NULL
     DROP TABLE bronze.accounts;
@@ -32,7 +32,7 @@ CREATE TABLE bronze.accounts(
 GO
 
 /*============================================================
-  BRONZE.BRANCHES - Raw branch information
+  bronze.branches - Raw branch information
 ============================================================*/
 IF OBJECT_ID ('bronze.branches', 'U') IS NOT NULL
     DROP TABLE bronze.branches;
@@ -51,7 +51,7 @@ CREATE TABLE bronze.branches(
 GO
 
 /*============================================================
-  BRONZE.CREDIT_CARDS - Raw credit card account records
+  bronze.credit_cards - Raw credit card information
 ============================================================*/
 IF OBJECT_ID ('bronze.credit_cards', 'U') IS NOT NULL
     DROP TABLE bronze.credit_cards;
@@ -70,7 +70,7 @@ CREATE TABLE bronze.credit_cards(
 GO
 
 /*============================================================
-  BRONZE.CUSTOMERS - Raw customer master data
+  bronze.customers - Raw customer master data
 ============================================================*/
 IF OBJECT_ID ('bronze.customers', 'U') IS NOT NULL
     DROP TABLE bronze.customers;
@@ -95,7 +95,7 @@ CREATE TABLE bronze.customers(
 GO
 
 /*============================================================
-  BRONZE.LOANS - Raw loan account records
+  bronze.loans - Raw loan records
 ============================================================*/
 IF OBJECT_ID ('bronze.loans', 'U') IS NOT NULL
     DROP TABLE bronze.loans;
@@ -114,7 +114,7 @@ CREATE TABLE bronze.loans(
 GO
 
 /*============================================================
-  BRONZE.TRANSACTIONS - Raw financial transactions
+  bronze.transactions - Raw financial transactions
 ============================================================*/
 IF OBJECT_ID ('bronze.transactions', 'U') IS NOT NULL
     DROP TABLE bronze.transactions;
