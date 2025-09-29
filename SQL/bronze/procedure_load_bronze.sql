@@ -145,10 +145,6 @@ BEGIN
 		SET @end_time = GETDATE();
 		PRINT '>>> Load Duration: ' + CAST (DATEDIFF(SECOND, @start_time, @end_time) AS NVARCHAR) + ' Seconds';
 		PRINT '-------------------------------------------------';
-
-        /**********************************************
-            FINAL SUMMARY
-        **********************************************/
 		COMMIT TRANSACTION;
 		SET @batch_end_time = GETDATE();
 		PRINT '=================================================';
